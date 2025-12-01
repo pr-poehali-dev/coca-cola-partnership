@@ -4,6 +4,11 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -144,6 +149,15 @@ export default function Index() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('Все напитки');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
+  const [orderForm, setOrderForm] = useState({
+    name: '',
+    phone: '',
+    address: '',
+    comment: '',
+    deliveryTime: 'asap',
+    paymentMethod: 'card'
+  });
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -256,13 +270,151 @@ export default function Index() {
                     ))}
                     <Separator />
                     <div className="space-y-2">
-                      <div className="flex justify-between font-medium">
-                        <span>Итого:</span>
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>Товары:</span>
                         <span>{getTotalPrice()} ₽</span>
                       </div>
-                      <Button className="w-full" size="lg">
-                        Оформить заказ
-                      </Button>
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>Доставка:</span>
+                        <span>{getTotalPrice() >= 1000 ? 'Бесплатно' : '150 ₽'}</span>
+                      </div>
+                      <Separator />
+                      <div className="flex justify-between font-bold text-lg">
+                        <span>Итого:</span>
+                        <span>{getTotalPrice() + (getTotalPrice() >= 1000 ? 0 : 150)} ₽</span>
+                      </div>
+                      <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
+                        <DialogTrigger asChild>
+                          <Button className="w-full" size="lg">
+                            Оформить заказ
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                          <DialogHeader>
+                            <DialogTitle>Оформление заказа</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-6 py-4">
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="name">Имя *</Label>
+                                <Input
+                                  id="name"
+                                  placeholder="Иван Иванов"
+                                  value={orderForm.name}
+                                  onChange={(e) => setOrderForm({...orderForm, name: e.target.value})}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="phone">Телефон *</Label>
+                                <Input
+                                  id="phone"
+                                  placeholder="+7 (999) 123-45-67"
+                                  value={orderForm.phone}
+                                  onChange={(e) => setOrderForm({...orderForm, phone: e.target.value})}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="address">Адрес доставки *</Label>
+                                <Input
+                                  id="address"
+                                  placeholder="ул. Пушкина, д. 10, кв. 5"
+                                  value={orderForm.address}
+                                  onChange={(e) => setOrderForm({...orderForm, address: e.target.value})}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="deliveryTime">Время доставки</Label>
+                                <Select value={orderForm.deliveryTime} onValueChange={(value) => setOrderForm({...orderForm, deliveryTime: value})}>
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="asap">Как можно скорее (60 мин)</SelectItem>
+                                    <SelectItem value="morning">Утром (9:00 - 12:00)</SelectItem>
+                                    <SelectItem value="afternoon">Днём (12:00 - 17:00)</SelectItem>
+                                    <SelectItem value="evening">Вечером (17:00 - 21:00)</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="paymentMethod">Способ оплаты</Label>
+                                <Select value={orderForm.paymentMethod} onValueChange={(value) => setOrderForm({...orderForm, paymentMethod: value})}>
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="card">Картой онлайн</SelectItem>
+                                    <SelectItem value="cash">Наличными курьеру</SelectItem>
+                                    <SelectItem value="card_courier">Картой курьеру</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="comment">Комментарий к заказу</Label>
+                                <Textarea
+                                  id="comment"
+                                  placeholder="Например: позвоните за 5 минут до приезда"
+                                  value={orderForm.comment}
+                                  onChange={(e) => setOrderForm({...orderForm, comment: e.target.value})}
+                                  rows={3}
+                                />
+                              </div>
+                            </div>
+                            
+                            <Separator />
+                            
+                            <div>
+                              <h3 className="font-semibold mb-4">Ваш заказ</h3>
+                              <div className="space-y-3 mb-4">
+                                {cart.map(item => (
+                                  <div key={item.id} className="flex justify-between text-sm">
+                                    <span>{item.name} x {item.quantity}</span>
+                                    <span className="font-medium">{item.price * item.quantity} ₽</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <Separator className="my-4" />
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span>Товары:</span>
+                                  <span>{getTotalPrice()} ₽</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span>Доставка:</span>
+                                  <span>{getTotalPrice() >= 1000 ? 'Бесплатно' : '150 ₽'}</span>
+                                </div>
+                                <Separator className="my-2" />
+                                <div className="flex justify-between font-bold text-lg">
+                                  <span>Итого:</span>
+                                  <span>{getTotalPrice() + (getTotalPrice() >= 1000 ? 0 : 150)} ₽</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <Button 
+                              className="w-full" 
+                              size="lg"
+                              disabled={!orderForm.name || !orderForm.phone || !orderForm.address}
+                              onClick={() => {
+                                alert('Спасибо за заказ! Мы свяжемся с вами в ближайшее время.');
+                                setIsOrderDialogOpen(false);
+                                setCart([]);
+                                setOrderForm({
+                                  name: '',
+                                  phone: '',
+                                  address: '',
+                                  comment: '',
+                                  deliveryTime: 'asap',
+                                  paymentMethod: 'card'
+                                });
+                              }}
+                            >
+                              <Icon name="CheckCircle" size={18} className="mr-2" />
+                              Подтвердить заказ
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </>
                 )}
