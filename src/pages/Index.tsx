@@ -21,6 +21,17 @@ interface CartItem extends Product {
   quantity: number;
 }
 
+interface Bundle {
+  id: number;
+  name: string;
+  description: string;
+  products: number[];
+  originalPrice: number;
+  discountedPrice: number;
+  discount: number;
+  image: string;
+}
+
 const products: Product[] = [
   {
     id: 1,
@@ -84,6 +95,49 @@ const products: Product[] = [
   }
 ];
 
+const bundles: Bundle[] = [
+  {
+    id: 1,
+    name: 'Энергия утра',
+    description: 'Идеальный старт дня: апельсиновый фреш и зелёный смузи',
+    products: [1, 2],
+    originalPrice: 570,
+    discountedPrice: 490,
+    discount: 14,
+    image: 'https://cdn.poehali.dev/projects/dc5fb2cd-b32f-413c-be37-c4585aaab84b/files/18adb2b0-0ab1-48e9-8d6b-05f19dcd49c2.jpg'
+  },
+  {
+    id: 2,
+    name: 'Цитрусовый микс',
+    description: 'Тройная порция витамина C: апельсин, грейпфрут и манго-маракуйя',
+    products: [1, 3, 5],
+    originalPrice: 790,
+    discountedPrice: 650,
+    discount: 18,
+    image: 'https://cdn.poehali.dev/projects/dc5fb2cd-b32f-413c-be37-c4585aaab84b/files/b340dae3-b25a-4e88-b3db-292f53b6e184.jpg'
+  },
+  {
+    id: 3,
+    name: 'Спорт и здоровье',
+    description: 'Для активных: протеиновый и ягодный смузи',
+    products: [4, 6],
+    originalPrice: 650,
+    discountedPrice: 550,
+    discount: 15,
+    image: 'https://cdn.poehali.dev/projects/dc5fb2cd-b32f-413c-be37-c4585aaab84b/files/c2320e20-bb10-4584-90bd-44b4155b1322.jpg'
+  },
+  {
+    id: 4,
+    name: 'Детокс-неделя',
+    description: 'Комплекс на неделю: все соки и смузи',
+    products: [1, 2, 3, 4, 5, 6],
+    originalPrice: 1760,
+    discountedPrice: 1400,
+    discount: 20,
+    image: 'https://cdn.poehali.dev/projects/dc5fb2cd-b32f-413c-be37-c4585aaab84b/files/18adb2b0-0ab1-48e9-8d6b-05f19dcd49c2.jpg'
+  }
+];
+
 const categories = ['Все напитки', 'Соки', 'Смузи'];
 
 export default function Index() {
@@ -119,6 +173,15 @@ export default function Index() {
 
   const getTotalPrice = () => {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  };
+
+  const addBundleToCart = (bundle: Bundle) => {
+    bundle.products.forEach(productId => {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        addToCart(product);
+      }
+    });
   };
 
   const getRecommendations = (product: Product) => {
@@ -235,6 +298,61 @@ export default function Index() {
                 className="rounded-2xl shadow-2xl"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-b from-primary/5 to-transparent">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 text-sm px-4 py-2">Выгодные предложения</Badge>
+            <h2 className="text-4xl font-bold mb-4">Готовые наборы</h2>
+            <p className="text-muted-foreground text-lg">Популярные комбинации напитков со скидкой до 20%</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {bundles.map(bundle => (
+              <Card key={bundle.id} className="overflow-hidden hover:shadow-xl transition-all">
+                <div className="grid md:grid-cols-2 gap-6 p-6">
+                  <div className="relative h-48 md:h-full overflow-hidden rounded-lg">
+                    <img
+                      src={bundle.image}
+                      alt={bundle.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">
+                      -{bundle.discount}%
+                    </Badge>
+                  </div>
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{bundle.name}</h3>
+                      <p className="text-muted-foreground mb-4">{bundle.description}</p>
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {bundle.products.map(productId => {
+                          const product = products.find(p => p.id === productId);
+                          return product ? (
+                            <Badge key={productId} variant="outline" className="text-xs">
+                              {product.name}
+                            </Badge>
+                          ) : null;
+                        })}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-baseline gap-2 mb-4">
+                        <span className="text-3xl font-bold text-primary">{bundle.discountedPrice} ₽</span>
+                        <span className="text-lg text-muted-foreground line-through">{bundle.originalPrice} ₽</span>
+                      </div>
+                      <Button className="w-full" size="lg" onClick={() => addBundleToCart(bundle)}>
+                        <Icon name="ShoppingBag" size={18} className="mr-2" />
+                        Добавить набор
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
