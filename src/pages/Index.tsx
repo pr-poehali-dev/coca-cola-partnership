@@ -630,6 +630,167 @@ export default function Index() {
         </div>
       </section>
 
+      <section className="py-16 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Отзывы наших клиентов</h2>
+            <p className="text-muted-foreground text-lg">Более 5000 довольных покупателей</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">А</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Анна Петрова</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">2 недели назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Заказываю напитки регулярно! Особенно нравится зелёный смузи — идеально для завтрака. 
+                Доставка всегда вовремя, курьеры вежливые. Рекомендую!
+              </p>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">М</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Михаил Соколов</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">1 месяц назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Взял набор "Спорт и здоровье" — отличное сочетание! Протеиновый смузи после тренировки просто спасение. 
+                Качество напитков на высоте, всё свежее.
+              </p>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">Е</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Елена Краснова</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">3 дня назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Заказала "Детокс-неделю" — хватило на всю семью! Цены адекватные, скидки приятные. 
+                Особенно понравился апельсиновый фреш — как будто сами выжали.
+              </p>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">Д</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Дмитрий Волков</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">1 неделя назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Удивлён скоростью доставки! Заказал в 10 утра, привезли через 45 минут. 
+                Упаковка качественная, ничего не пролилось. Буду заказывать ещё.
+              </p>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">О</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Ольга Морозова</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">5 дней назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Попробовала манго-маракуйю — влюбилась с первого глотка! Теперь заказываю каждую неделю. 
+                Ребёнку тоже очень нравится ягодный смузи.
+              </p>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl font-bold text-primary">С</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold mb-1">Сергей Николаев</h4>
+                  <div className="flex gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon key={i} name="Star" size={14} className="fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">2 месяца назад</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Отличный сервис для офиса! Заказываем наборы для всей команды. 
+                Все довольны, цены справедливые, доставка чёткая. Советую всем!
+              </p>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-8 p-6 bg-background rounded-lg shadow-sm">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-1">5000+</div>
+                <p className="text-sm text-muted-foreground">Довольных клиентов</p>
+              </div>
+              <Separator orientation="vertical" className="h-12" />
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-1">4.9</div>
+                <div className="flex gap-1 justify-center mb-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Icon key={i} name="Star" size={16} className="fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">Средняя оценка</p>
+              </div>
+              <Separator orientation="vertical" className="h-12" />
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-1">98%</div>
+                <p className="text-sm text-muted-foreground">Рекомендуют нас</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="delivery" className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Доставка и оплата</h2>
